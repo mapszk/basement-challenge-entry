@@ -2,13 +2,7 @@
 import {FC} from "react";
 
 import {Product} from "../../product/types";
-
-const formatPrice = (price: number): string => {
-  return price.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-};
+import {formatPrice} from "../../util/formatPrice";
 
 const ProductShowcaseItem: FC<Product> = ({name, price, imgUrl}) => {
   return (

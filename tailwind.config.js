@@ -3,7 +3,17 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      translate: {
+        menu: "1000%",
+      },
+      width: {
+        menu: "730px",
+      },
+      maxWidth: {
+        1440: "1440px",
+      },
       height: {
+        menu: "700px",
         "product-height": "550px",
         "10%": "10%",
         "90%": "90%",
@@ -15,6 +25,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      opacity: ["disabled"],
       display: ["group-hover"],
       visibility: ["group-hover"],
     },

@@ -4,7 +4,7 @@ import {FC} from "react";
 const Hero: FC = () => {
   return (
     <section className="relative mb-6">
-      <img alt="Header" src="/header.svg" />
+      <img alt="Header" className="mx-auto" src="/header.svg" />
       <img
         alt="Asterisk"
         className="z-10 hidden md:block animate-spin-slow absolute w-24 lg:w-28 left-9 -bottom-12"

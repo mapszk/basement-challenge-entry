@@ -10,7 +10,9 @@ function App({Component, pageProps}: AppProps) {
         <title>Basement Supply</title>
         <meta content="Coding challenge for basement.studio." name="description" />
       </Head>
-      <Component {...pageProps} />
+      <div className="w-11/12 max-w-1440 mx-auto overflow-hidden">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 }
