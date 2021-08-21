@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import {FC} from "react";
 
-import CartBox from "./CartBox";
+import {CartProduct} from "../../contexts/CartContext";
+import {useCartContext} from "../../hooks/useCartContext";
+import {formatPrice} from "../../util/formatPrice";
+
 import CartItem from "./CartItem";
 
 interface Props {
@@ -10,6 +13,7 @@ interface Props {
 }
 
 const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
+  const {cart} = useCartContext();
   const handleClick = () => {
     setIsVisible(false);
     document.body.style.overflow = "visible";
@@ -72,14 +76,17 @@ const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
             />
           </div>
           <div className="flex-grow-4 md:px-4 md:mr-4 md:mb-2 md:overflow-y-auto">
-            {carrito.length ? (
-              carrito.map((item, index) => (
+            {cart.length ? (
+              cart.map((item: CartProduct) => (
                 <CartItem
-                  key={index}
+                  key={item.id}
+                  id={item.id}
                   imgUrl={item.imgUrl}
                   name={item.name}
                   price={item.price}
+                  quantity={item.quantity}
                   shortDesc={item.shortDesc}
+                  size={item.size}
                 />
               ))
             ) : (
@@ -91,7 +98,13 @@ const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
           <div className="flex-grow-1 w-full flex flex-col md:flex-row mt-auto">
             <div className="md:w-3/4 md:px-4 items-center md:border-t-2 md:border-r-2 text-2xl flex justify-between">
               <h1>TOTAL:</h1>
-              <h1>$10.0</h1>
+              <h1>
+                {formatPrice(
+                  cart
+                    .map((prod: CartProduct) => prod.price)
+                    .reduce((acc: number, value: number) => acc + value, 0),
+                )}
+              </h1>
             </div>
             <img
               alt="Checkout"

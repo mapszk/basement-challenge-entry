@@ -1,15 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import {FC} from "react";
 
+import {CartProduct} from "../../contexts/CartContext";
+import {useCartContext} from "../../hooks/useCartContext";
 import {Product} from "../../product/types";
 import {formatPrice} from "../../util/formatPrice";
 
-const ProductShowcaseItem: FC<Product> = ({name, price, imgUrl}) => {
+const ProductShowcaseItem: FC<Product> = ({name, price, imgUrl, shortDesc, id}) => {
+  const {setCart} = useCartContext();
+  const handleAddToCart = () => {
+    setCart((cart: CartProduct[]) => [
+      ...cart,
+      {name, unitPrice: price, imgUrl, shortDesc, id, price: price, quantity: 1, size: "M"},
+    ]);
+  };
+
   return (
     <div className="relative group h-96 md:h-product-height">
       <div className="invisible bg-opacity-0 transition duration-500 group-hover:visible absolute w-full h-90% bg-black bg-opacity-60">
         <div className="w-full h-full relative flex justify-center items-center">
-          <h1 className="text-3xl cursor-pointer z-10">ADD TO CART</h1>
+          <h1 className="text-3xl cursor-pointer z-10" onClick={handleAddToCart}>
+            ADD TO CART
+          </h1>
           <img alt="World" className="absolute w-32 opacity-25" src="/assets/world.svg" />
         </div>
       </div>

@@ -13,7 +13,7 @@ module.exports = {
         1440: "1440px",
       },
       height: {
-        menu: "700px",
+        menu: "550px",
         "product-height": "550px",
         "10%": "10%",
         "90%": "90%",

@@ -11,9 +11,11 @@ const ProductShowcase: FC = () => {
         products.map((product) => (
           <ProductShowcaseItem
             key={product.id}
+            id={product.id}
             imgUrl={product.imgUrl}
             name={product.name}
             price={product.price}
+            shortDesc={product.shortDesc}
           />
         ))
       ) : (

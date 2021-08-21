@@ -1,24 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 
+import {CartProduct} from "../../contexts/CartContext";
+import {useCartContext} from "../../hooks/useCartContext";
 import {formatPrice} from "../../util/formatPrice";
 
 const sizes = ["S", "M", "L", "XL"];
 
-interface Props {
-  name: string;
-  shortDesc: string;
-  imgUrl: string;
-  price: number;
-}
+const CartItem: FC<CartProduct> = ({name, shortDesc, imgUrl, price, id, quantity, size}) => {
+  const {setCart} = useCartContext();
+  const [quantityProduct, setQuantityProduct] = useState<number>(quantity);
+  const [sizeProduct, setSizeProduct] = useState<string>(size);
+  const handleDeleteFromCart = () => {
+    setCart((cart: CartProduct[]) => cart.filter((prod) => prod.id !== id));
+  };
 
-const CartItem: FC<Props> = ({name, shortDesc, imgUrl, price}) => {
-  const [quantity, setQuantity] = useState<number>(1);
-  const [size, setSize] = useState<string>("M");
+  useEffect(() => {
+    setCart((cart: CartProduct[]) =>
+      cart.map((prod) =>
+        prod.id === id
+          ? {
+              ...prod,
+              price: prod.unitPrice * quantityProduct,
+              size: sizeProduct,
+              quantity: quantityProduct,
+            }
+          : prod,
+      ),
+    );
+  }, [quantityProduct, sizeProduct]);
 
   return (
     <div className="relative flex max-h-48 w-full border-2 p-2 mb-2">
-      <button className="absolute border-t-2 border-white border-r-2 top-0 right-0 bg-white flex justify-center items-center text-black w-7 h-7">
+      <button
+        className="absolute border-t-2 border-white border-r-2 top-0 right-0 bg-white flex justify-center items-center text-black w-7 h-7"
+        onClick={handleDeleteFromCart}
+      >
         X
       </button>
       <div className="w-2/6 md:w-1/4 flex justify-center items-center bg-gradient-to-t from-gray-900 mr-4">
@@ -32,13 +49,13 @@ const CartItem: FC<Props> = ({name, shortDesc, imgUrl, price}) => {
           <div className="flex justify-between w-24 rounded-full border-2 px-4">
             <button
               className="disabled:opacity-25"
-              disabled={quantity === 1}
-              onClick={() => setQuantity((q) => q - 1)}
+              disabled={quantityProduct === 1}
+              onClick={() => setQuantityProduct((q) => q - 1)}
             >
               -
             </button>
-            <h2>{quantity}</h2>
-            <button onClick={() => setQuantity((q) => q + 1)}>+</button>
+            <h2>{quantityProduct}</h2>
+            <button onClick={() => setQuantityProduct((q) => q + 1)}>+</button>
           </div>
         </div>
         <div className="flex items-center">
@@ -49,7 +66,7 @@ const CartItem: FC<Props> = ({name, shortDesc, imgUrl, price}) => {
                 key={index}
                 className="disabled:opacity-100 opacity-25 text-center rounded-full flex justify-center items-center border-2 w-7 h-7"
                 disabled={size === SIZE}
-                onClick={() => setSize(SIZE)}
+                onClick={() => setSizeProduct(SIZE)}
               >
                 {SIZE}
               </button>
