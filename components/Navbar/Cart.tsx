@@ -64,7 +64,10 @@ const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
       <div className={cartClasses.join(" ")}>
         <div className="flex flex-col h-full">
           <div className="flex-grow-1 md:p-4">
-            <h2 className="text-right cursor-pointer mb-2" onClick={handleClick}>
+            <h2
+              className="table ml-auto text-lg text-right cursor-pointer mb-2"
+              onClick={handleClick}
+            >
               {"> CLOSE"}
             </h2>
             <img
