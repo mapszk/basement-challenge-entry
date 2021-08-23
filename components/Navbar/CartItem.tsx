@@ -44,9 +44,9 @@ const CartItem: FC<CartProduct> = ({name, shortDesc, imgUrl, price, id, quantity
       <div className="w-4/6 md:w-3/4 flex flex-col justify-between">
         <h2 className="uppercase text-xl">{name}</h2>
         <h2 className="text-gray-600 mb-2">{shortDesc}</h2>
-        <div className="flex items-center mb-2">
+        <div className="flex items-center md:mt-auto mb-2">
           <h2 className="mr-2">QUANTITY: </h2>
-          <div className="flex justify-between w-24 rounded-full border-2 px-4">
+          <div className="flex justify-between w-16 rounded-full border-2 px-2">
             <button
               className="disabled:opacity-25"
               disabled={quantityProduct === 1}
@@ -58,22 +58,24 @@ const CartItem: FC<CartProduct> = ({name, shortDesc, imgUrl, price, id, quantity
             <button onClick={() => setQuantityProduct((q) => q + 1)}>+</button>
           </div>
         </div>
-        <div className="flex items-center">
-          <h2 className="mr-2">SIZE: </h2>
-          <div className="flex justify-between">
-            {sizes.map((SIZE, index) => (
-              <button
-                key={index}
-                className="disabled:opacity-100 opacity-25 text-center rounded-full flex justify-center items-center border-2 w-7 h-7"
-                disabled={size === SIZE}
-                onClick={() => setSizeProduct(SIZE)}
-              >
-                {SIZE}
-              </button>
-            ))}
+        <div className="flex flex-col md:flex-row md:items-start">
+          <div className="flex items-center">
+            <h2 className="mr-2">SIZE: </h2>
+            <div className="flex justify-between">
+              {sizes.map((SIZE, index) => (
+                <button
+                  key={index}
+                  className="disabled:opacity-100 opacity-25 text-center rounded-full flex justify-center items-center border-2 w-7 h-7"
+                  disabled={size === SIZE}
+                  onClick={() => setSizeProduct(SIZE)}
+                >
+                  {SIZE}
+                </button>
+              ))}
+            </div>
           </div>
+          <h2 className="text-2xl mt-2 md:mt-0 md:ml-auto">{formatPrice(price)}</h2>
         </div>
-        <h2 className="text-2xl mt-2">{formatPrice(price)}</h2>
       </div>
     </div>
   );

@@ -14,6 +14,9 @@ interface Props {
 
 const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
   const {cart} = useCartContext();
+  const handleCheckout = () => {
+    return console.info(`YOUR BUY: \n ${JSON.stringify(cart, null, "\t")}`);
+  };
   const handleClick = () => {
     setIsVisible(false);
     document.body.style.overflow = "visible";
@@ -87,6 +90,7 @@ const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
                   quantity={item.quantity}
                   shortDesc={item.shortDesc}
                   size={item.size}
+                  unitPrice={item.unitPrice}
                 />
               ))
             ) : (
@@ -108,8 +112,9 @@ const Cart: FC<Props> = ({isVisible, setIsVisible}) => {
             </div>
             <img
               alt="Checkout"
-              className="md:w-1/4 md:p-4 max-h-16 pt-2 mb-2 border-t-2"
+              className="cursor-pointer md:w-1/4 md:p-4 max-h-16 pt-2 mb-2 md:mb-0 border-t-2"
               src="/assets/checkout.svg"
+              onClick={handleCheckout}
             />
           </div>
         </div>

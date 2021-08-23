@@ -7,12 +7,14 @@ import {Product} from "../../product/types";
 import {formatPrice} from "../../util/formatPrice";
 
 const ProductShowcaseItem: FC<Product> = ({name, price, imgUrl, shortDesc, id}) => {
-  const {setCart} = useCartContext();
+  const {cart, setCart} = useCartContext();
   const handleAddToCart = () => {
-    setCart((cart: CartProduct[]) => [
-      ...cart,
-      {name, unitPrice: price, imgUrl, shortDesc, id, price: price, quantity: 1, size: "M"},
-    ]);
+    if (cart.some((item: CartProduct) => item.id === id)) return;
+    else
+      setCart((cart: CartProduct[]) => [
+        ...cart,
+        {name, unitPrice: price, imgUrl, shortDesc, id, price: price, quantity: 1, size: "M"},
+      ]);
   };
 
   return (
@@ -20,12 +22,12 @@ const ProductShowcaseItem: FC<Product> = ({name, price, imgUrl, shortDesc, id}) 
       <div className="invisible bg-opacity-0 transition duration-500 group-hover:visible absolute w-full h-90% bg-black bg-opacity-60">
         <div className="w-full h-full relative flex justify-center items-center">
           <h1 className="text-3xl cursor-pointer z-10" onClick={handleAddToCart}>
-            ADD TO CART
+            {cart.some((item: CartProduct) => item.id === id) ? "IN CART" : "ADD TO CART"}
           </h1>
           <img alt="World" className="absolute w-32 opacity-25" src="/assets/world.svg" />
         </div>
       </div>
-      <div className="flex justify-center items-center h-90% border-b-2 bg-gradient-to-t from-gray-900">
+      <div className="flex justify-center items-center h-90% border-b-2 bg-gradient-to-t from-grayGradient">
         <img alt="Product image" className="object-contain h-full max-w-full" src={imgUrl} />
       </div>
       <div className="h-10% flex items-end justify-between">
